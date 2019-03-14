@@ -7,6 +7,11 @@
 #include <set>
 #include <iostream>
 #include <fstream>
+#include <list>
+#include <sstream>
+#include <utility>
+#include <algorithm>
+using namespace std;
 
 struct Postlist
 {
@@ -22,7 +27,7 @@ public:
     bool UpdateIndex();                         // Create inverted index over the Shakespeare set with word stemming.
                                                 // The stop words in the set Stopword must not be included.
     void CompressIndex();
-    std::string QuerySearch(std::string query); // return names of the files containing the query after thresholding
+    std::vector<string> QuerySearch(std::string query, float threshold); // return names of the files containing the query after thresholding
     ~InvertedIndex();
 private:
     std::map<std::string, Postlist*> InvertedIndex; 
