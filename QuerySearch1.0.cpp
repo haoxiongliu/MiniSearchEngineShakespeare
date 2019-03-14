@@ -46,6 +46,7 @@ vector<string> InvertedFileIndex::QuerySearch(string query, float threshold=1.0)
 	stringstream terms;
 	string term;
 	map<string, Postlist*>::iterator it;
+	set<string>::iterator iter;
 	term_postlist tp;
 	int term_num, i, doc_num;
 
@@ -60,6 +61,8 @@ vector<string> InvertedFileIndex::QuerySearch(string query, float threshold=1.0)
 
 		//Check if the term is in StopWord. If the term is in StopWord, just leave
 		//this term and get next one.
+		iter = StopWord.find(term);
+		if (iter != StopWord.end()) continue;
 
 		//Find this term in InvertedIndex. If this term is in InvertedIndex, insert it into termlist.
 		it = InvertedIndex.find(term);
