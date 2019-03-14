@@ -13,7 +13,8 @@
 #include <utility>
 #include <algorithm>
 using namespace std;
-
+namespace
+{
 //term_freq is used to store a term with its postlist.
 typedef pair<string, Postlist*> term_postlist;
 
@@ -22,6 +23,7 @@ bool CompareTerm(term_postlist a, term_postlist b)
 {
 	//Put the term with small frequency in front of large frequency.
 	return (a.second->freq < b.second->freq);
+}
 }
 
 vector<string> InvertedFileIndex::QuerySearch(string query, float threshold=1.0)
