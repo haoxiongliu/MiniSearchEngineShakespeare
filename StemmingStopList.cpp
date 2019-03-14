@@ -1,62 +1,64 @@
 /**
-* @file StemmingStopList.cpp
-*
-* transfer
-*/
+ * @file StemmingStopList.cpp
+ *
+ * Implement stemming and choosing stop list.
+ */
 
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <filesystem>
+#include <dirent.h>
+#include <direct.h>
 #include "stemmer/porter2_stemmer.h"
 #include "invertedfileindex.h"
 
-namespace fs = std::filesystem;
 
-std::string getFileName(const std::string& s) {
+bool InvertedFileIndex::GetStopWord()
+{
+	std::string OriDir = "ShakespeareComplete"; // Original text
+	std::string DstDir = "StemmedShakespeare";  // Stemmed text
 
-	char sep = '/';
+	// create a directory
+    std::string command = "mkdir " + DstDir;
+    system(command.c_str());
 
-#ifdef _WIN32
-	sep = '\\';
-#endif
+    // open the original directory
+    DIR *dir;
+    struct dirent *entry;
+    if((dir = opendir(OriDir.c_str())) == NULL){
+        std::cout << "Directory open failed" << std::endl;
+        return false;
+    }
 
-	size_t i = s.rfind(sep, s.length());
-	if (i != std::string::npos) {
-		return(s.substr(i + 1, s.length() - i));
-	}
-
-	return("");
-}
-
-
-bool InvertedFileIndex::GetStopWord() {
-
-	std::string OriDir = "ShakespeareComplete";
-	std::string DstDir = "StemmedShakespeare";
-
-
-	std::ifstream in;
-	std::ofstream out;
+    std::ifstream in;       // in stream
+	std::ofstream out;      // out stream
 	std::string filename;
 	std::string to_stem;
+	while((entry = readdir(dir)) != NULL) {
+        filename = entry->d_name;
+		out.open(DstDir + "\\" + filename);
+		in.open(OriDir + "\\" + filename);
 
-	for (auto & entry : fs::directory_iterator(OriDir)) {
-		in = entry.path();
-		filename = getFileName(in);
-		out = DstDir + "/" + filename;
 		while (in >> to_stem) {
 			Porter2Stemmer::trim(to_stem);
 			Porter2Stemmer::stem(to_stem);
 
-			// deal with stop word
-
 			out << to_stem << ' ';
 		}
+		in.close();
+		out.close();
 		InvertedFileIndex::Documents.push_back(filename);
 	}
 
 	// deal with stop word
 
 	return true;
+}
+
+InvertedFileIndex::InvertedFileIndex(){
+    return;
+}
+
+InvertedFileIndex::~InvertedFileIndex(){
+    return;
 }

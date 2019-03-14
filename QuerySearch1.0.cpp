@@ -1,11 +1,10 @@
-/*
-@file QuerySearch1.0.cpp
-*/
+/**
+ *@file QuerySearch1.0.cpp
+ */
 
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <filesystem>
 #include "stemmer/porter2_stemmer.h"
 #include "invertedfileindex.h"
 #include <list>
@@ -31,9 +30,9 @@ vector<string> InvertedFileIndex::QuerySearch(string query, float threshold=1.0)
 	QuerySearch was used to doing the index for the documents which contain terms in the query.
 
 	input:
-	string query: Query contains one or several words which the user want to index. If there 
+	string query: Query contains one or several words which the user want to index. If there
 	              are several words in the query, there should be a space between different words.
-	float threshould: Threshold is used to determine how many terms in query should be used to index. 
+	float threshould: Threshold is used to determine how many terms in query should be used to index.
 	                  It should be in the range of (0, 1]. The default number here is 1.0.
 
 	output:
@@ -41,7 +40,6 @@ vector<string> InvertedFileIndex::QuerySearch(string query, float threshold=1.0)
 	*/
 
 	vector<term_postlist> termlist;
-	vector<int> doclist, doclist_;
 	vector<string> Filenames;
 	stringstream terms;
 	string term;
@@ -92,16 +90,17 @@ vector<string> InvertedFileIndex::QuerySearch(string query, float threshold=1.0)
 
 	//In case that term = 0.
 	if (term_num == 0) term_num++;
-	
+
 	//Get intersection bewteen documents containing selected terms. Here use set_intersection to
 	//achieve it.
-	for (i = 0; i < term_num; ++i)
+	vector<int> doclist(termlist[0].second->docID);    // initialization !
+	for (i = 1; i < term_num; ++i)
 	{
-		//doclist_ is used because the result of the intersection of two vectors must be stored in
-		//a new vector.
-		set_intersection(termlist[i].second->docID.begin(), termlist[i].second->docID.end(), 
-			             doclist.begin(), doclist.end(), doclist_);
-		doclist = doclist_;
+		auto p = new vector<int>;
+		set_intersection(termlist[i].second->docID.begin(), termlist[i].second->docID.end(),
+			             doclist.begin(), doclist.end(), back_inserter(*p));
+		doclist = *p;
+		delete p;
 	}
 
 	//Turn the DocID into it's filename and store it in Filenames.
