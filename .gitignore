@@ -1,6 +1,14 @@
 *.dSYM
 *_demo
 
+# code blocks
+*.layout
+*.depend
+*.bmarks
+*.cbp
+bin/
+obj/
+
 # Prerequisites
 *.d
 
