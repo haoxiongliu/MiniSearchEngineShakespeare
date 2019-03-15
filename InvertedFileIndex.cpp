@@ -22,10 +22,11 @@ bool InvertedFileIndex::UpdateIndex()
     string dirname = "StemmedShakespeare";
     int docID = 0;
     for (const auto &doc : Documents)
-    {
+    {   //open every file
         ifstream ShakespearFile(dirname + "\\" + doc);
         if (ShakespearFile.is_open()){
             while (ShakespearFile >> word){
+                // Handle all the words in one document
 				if (StopWord.find(word) == StopWord.end())
                 // If the word is not a stop word, insert the word into the map;
                     InsertWord(word, docID);
@@ -44,12 +45,18 @@ void InvertedFileIndex::InsertWord(string word, int docID)
         // If the word is not included in the map, insert a new key
         PostList *p = new PostList();
         (*p).freq = 1;
-        (*p).docID.push_back(docID);
+        (*p).docID.push_back(pair<int, int>(docID, 1));
         InvertedIndex.insert(pair<std::string, PostList*>(word, p));
     }else{
         // If the word is already included in the map, update the PostList
-		(*(map_it->second)).freq ++;
-        (*(map_it->second)).docID.push_back(docID);
+        if (*(map_it->second)).docID.back().first == docID{
+            // If there is already the same word in this document
+            (*(map_it->second)).docID.back().second ++;
+        }else{
+            // If the word hasn't appeared in this doc yet
+            (*(map_it->second)).freq ++;
+            (*(map_it->second)).docID.push_back(pair<int, int>(docID, 1));        
+        }
     }
     return;
 }
