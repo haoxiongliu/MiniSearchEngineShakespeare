@@ -50,6 +50,7 @@ bool InvertedFileIndex::GetStopWord()
 	int doc_num = 0;
 	while((entry = readdir(dir)) != NULL) {
         filename = entry->d_name;
+        if(filename == "." || filename == "..") continue;
 		out.open(DstDir + "\\" + filename);
 		in.open(OriDir + "\\" + filename);
 
@@ -79,22 +80,14 @@ bool InvertedFileIndex::GetStopWord()
 
     // sort
     std::sort(vec_tf.begin(), vec_tf.end(), CompareTermFreq);
-    for(vector<pair>::iterator it = vec_tf.begin(); it != vec_tf.end(); ++it){
-//        if(it->second > 2*doc_num){
-        if(it->first != "henri"){   // our choice of critical word
+    for(std::vector<pair>::iterator it = vec_tf.begin(); it != vec_tf.end(); ++it){
+    //  if(it->second > 3*doc_num){  for arbitrary collections of documents   
+        if(it->first != "henri"){   // for Shakespeare Complete Works
             StopWord.insert(it->first);
-            std::cout << it->first << endl;
         }
         else break;
     }
+    std::cout << "Word Count Finished" << std::endl;
 
 	return true;
-}
-
-InvertedFileIndex::InvertedFileIndex(){
-    return;
-}
-
-InvertedFileIndex::~InvertedFileIndex(){
-    return;
 }

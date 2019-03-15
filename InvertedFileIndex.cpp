@@ -8,13 +8,22 @@
 #include "InvertedFileIndex.h"
 using namespace std;
 
+InvertedFileIndex::InvertedFileIndex(){
+    return;
+}
+
+InvertedFileIndex::~InvertedFileIndex(){
+    return;
+}
+
 bool InvertedFileIndex::UpdateIndex()
 {
     string word;
+    string dirname = "StemmedShakespeare";
     int docID = 0;
     for (const auto &doc : Documents)
     {
-        ifstream ShakespearFile(doc);
+        ifstream ShakespearFile(dirname + "\\" + doc);
         if (ShakespearFile.is_open()){
             while (ShakespearFile >> word){
 				if (StopWord.find(word) == StopWord.end())
@@ -22,6 +31,7 @@ bool InvertedFileIndex::UpdateIndex()
                     InsertWord(word, docID);
             }
         }// End of file
+        else cout << "open file " << doc << "failed" << endl;
         docID ++;
     }
     return true;
