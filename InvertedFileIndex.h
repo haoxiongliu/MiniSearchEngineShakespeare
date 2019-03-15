@@ -7,71 +7,38 @@
 #include <set>
 #include <iostream>
 #include <fstream>
+#include <list>
+#include <sstream>
+#include <utility>
+#include <algorithm>
 
-struct Occurence
+class PostList
 {
-    std::string DocID;
-    int times;
+public:
+    friend class InvertedFileIndex;
+    PostList():freq(0),docID(0){};
+    ~PostList(){};
+public:
+    int freq;
+    std::vector<int> docID;                     // Documents[docID] is the filename
 };
+
 
 class InvertedFileIndex
 {
 public:
-    InvertedIndex();      
+	InvertedFileIndex() {};
     bool GetStopWord();                         // Run a word count and identify the stop words
-    bool GetSynonym();                          // Map all the synonyms into the map Synonym
     bool UpdateIndex();                         // Create inverted index over the Shakespeare set with word stemming.
                                                 // The stop words in the set Stopword must not be included.
-    void CompressIndex();
-    std::string QuerySearch(std::string query);
-    ~InvertedIndex();
-private:
-    typedef std::vector<Occurence> WordInfo;
-    std::map<std::string, WordInfo> InvertedIndex;
-    std::map<std::string, std::string> Synonym;
-    std::set<std::string> StopWord;
+    void InsertWord(std::string word, int docID);
+//    void CompressIndex();  Compress 先直接不做了，解决完第二个版本看时间再考虑
+    std::vector<std::string> QuerySearch(std::string query, float threshold); // return names of the files containing the query after thresholding
+	~InvertedFileIndex();
+//private:
+    std::map<std::string, PostList*> InvertedIndex;
+    std::set<std::string> StopWord;             // Updated by GetStopWord()
+    std::vector<std::string> Documents;              // Updated by GetStopWord()
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-string word;
-
-while ( all the word ){
-    if (exclude.find(word) == exclude.end())
-        Put the word into the map
-}
