@@ -11,28 +11,34 @@
 #include <sstream>
 #include <utility>
 #include <algorithm>
-using namespace std;
 
-struct Postlist
+class PostList
 {
-    std::vector<int> docID;                     // Documents[docID] is the filename
+public:
+    friend class InvertedFileIndex;
+    PostList():freq(0),docID(0){};
+    ~PostList(){};
+public:
     int freq;
+    std::vector<int> docID;                     // Documents[docID] is the filename
 };
+
 
 class InvertedFileIndex
 {
 public:
-    InvertedFileIndex();
+    InvertedFileIndex() {};
     bool GetStopWord();                         // Run a word count and identify the stop words
     bool UpdateIndex();                         // Create inverted index over the Shakespeare set with word stemming.
                                                 // The stop words in the set Stopword must not be included.
-//    void CompressIndex();  Compress ÏÈÖ±½Ó²»×öÁË£¬½â¾öÍêµÚ¶ş¸ö°æ±¾¿´Ê±¼äÔÙ¿¼ÂÇ
-    std::vector<string> QuerySearch(std::string query, float threshold); // return names of the files containing the query after thresholding
-    ~InvertedFileIndex();
-private:
-    std::map<std::string, Postlist*> InvertedIndex;
+    void InsertWord(std::string word, int docID);
+//    void CompressIndex();  Compress éå ¢æ´¿éºãƒ¤ç¬‰é‹æ°«ç°¡é”›å²ƒĞ’éå†²ç•¬ç»—îƒ¿ç°©æ¶“î†å¢—éˆî„‚æ¹…éƒå •æ£¿éå¶ˆï¿½å†­æª»
+    std::vector<std::string> QuerySearch(std::string query, float threshold); // return names of the files containing the query after thresholding
+	  ~InvertedFileIndex();
+//private:
+    std::map<std::string, PostList*> InvertedIndex;
     std::set<std::string> StopWord;             // Updated by GetStopWord()
-    std::vector<string> Documents;              // Updated by GetStopWord()
+    std::vector<std::string> Documents;              // Updated by GetStopWord()
 };
 
 #endif
