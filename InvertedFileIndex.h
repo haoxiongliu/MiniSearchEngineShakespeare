@@ -27,14 +27,14 @@ public:
 class InvertedFileIndex
 {
 public:
-	InvertedFileIndex() {};
+    InvertedFileIndex() {};
     bool GetStopWord();                         // Run a word count and identify the stop words
     bool UpdateIndex();                         // Create inverted index over the Shakespeare set with word stemming.
                                                 // The stop words in the set Stopword must not be included.
     void InsertWord(std::string word, int docID);
-//    void CompressIndex();  Compress 先直接不做了，解决完第二个版本看时间再考虑
+//    void CompressIndex();  Compress 鍏堢洿鎺ヤ笉鍋氫簡锛岃В鍐冲畬绗簩涓増鏈湅鏃堕棿鍐嶈�冭檻
     std::vector<std::string> QuerySearch(std::string query, float threshold); // return names of the files containing the query after thresholding
-	~InvertedFileIndex();
+	  ~InvertedFileIndex();
 //private:
     std::map<std::string, PostList*> InvertedIndex;
     std::set<std::string> StopWord;             // Updated by GetStopWord()
