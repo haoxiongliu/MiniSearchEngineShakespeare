@@ -8,10 +8,6 @@
 #include "InvertedFileIndex.h"
 using namespace std;
 
-InvertedFileIndex::InvertedFileIndex(){
-    return;
-}
-
 InvertedFileIndex::~InvertedFileIndex(){
     return;
 }
@@ -49,7 +45,7 @@ void InvertedFileIndex::InsertWord(string word, int docID)
         InvertedIndex.insert(pair<std::string, PostList*>(word, p));
     }else{
         // If the word is already included in the map, update the PostList
-        if (*(map_it->second)).docID.back().first == docID{
+        if (map_it->second->docID.back().first == docID){
             // If there is already the same word in this document
             (*(map_it->second)).docID.back().second ++;
         }else{
