@@ -27,6 +27,20 @@ bool CompareTermFreq(std::pair<std::string, int> a, std::pair<std::string, int> 
 
 bool InvertedFileIndex::GetStopWord()
 {
+	// if there is already a stop word list, restore it
+	std::string StopWordFile("StopWordList.txt");
+	std::ifstream StopWordIn(StopWordFile);
+	if(StopWordIn.is_open())
+    {
+        std::string term;
+        while(StopWordIn >> term)
+        {
+            StopWord.insert(term);
+        }
+        return true;
+	}
+
+    // otherwise, do word count and get stop word list from text in the Oridir
 	std::string OriDir = "ShakespeareComplete"; // Original text
 	std::string DstDir = "StemmedShakespeare";  // Stemmed text
 
@@ -80,10 +94,12 @@ bool InvertedFileIndex::GetStopWord()
 
     // sort
     std::sort(vec_tf.begin(), vec_tf.end(), CompareTermFreq);
+    std::ofstream StopWordOut(StopWordFile);
     for(std::vector<pair>::iterator it = vec_tf.begin(); it != vec_tf.end(); ++it){
-    //  if(it->second > 3*doc_num){  for arbitrary collections of documents   
+        // if(it->second > 3*doc_num){  for arbitrary collections of documents
         if(it->first != "henri"){   // for Shakespeare Complete Works
             StopWord.insert(it->first);
+            StopWordOut << it->first << ' ';
         }
         else break;
     }
