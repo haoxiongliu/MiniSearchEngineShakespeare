@@ -11,6 +11,7 @@
 #include <sstream>
 #include <utility>
 #include <algorithm>
+#include <math.h>
 
 class PostList
 {
@@ -20,7 +21,7 @@ public:
     ~PostList(){};
 public:
     int freq;                                   // freq:  Document frequency(the number of documents which contain each term)
-    std::vector<pair<int, int> > docID;         // Documents[docID] is the filename
+    std::vector<std::pair<int, int> > docID;         // Documents[docID] is the filename
                                                 // pair<docID, termfrequency>
 };                                              // Term frequency: the frequency of each term in each document
 
@@ -34,7 +35,8 @@ public:
                                                 // The stop words in the set Stopword must not be included.
     void InsertWord(std::string word, int docID);
 //    void CompressIndex();  Compress 先直接不做了，解决完第二个版本看时间再考虑
-    std::vector<std::string> QuerySearch(std::string query, float threshold); // return names of the files containing the query after thresholding
+    //std::vector<std::string> QuerySearch(std::string query, float threshold); // return names of the files containing the query after thresholding
+	std::vector<std::string> QuerySearch2(std::string& query, float threshold);
     ~InvertedFileIndex();
 private:
     std::map<std::string, PostList*> InvertedIndex;
