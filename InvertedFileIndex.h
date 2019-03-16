@@ -37,6 +37,7 @@ public:
 //    void CompressIndex();  Compress 先直接不做了，解决完第二个版本看时间再考虑
     //std::vector<std::string> QuerySearch(std::string query, float threshold); // return names of the files containing the query after thresholding
 	std::vector<std::string> QuerySearch2(std::string& query, float threshold);
+	void Test(std::vector<std::string> res, std::string query);
     ~InvertedFileIndex();
 private:
     std::map<std::string, PostList*> InvertedIndex;
