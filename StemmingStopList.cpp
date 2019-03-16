@@ -27,16 +27,28 @@ bool CompareTermFreq(std::pair<std::string, int> a, std::pair<std::string, int> 
 
 bool InvertedFileIndex::GetStopWord()
 {
-	// if there is already a stop word list, restore it
+	// if there is already a stop word list and a document list, restore them
 	std::string StopWordFile("StopWordList.txt");
+	std::string FilenamesFile("FilenamesList.txt");
 	std::ifstream StopWordIn(StopWordFile);
-	if(StopWordIn.is_open())
+	std::ifstream FilenamesIn(FilenamesFile);
+	if(StopWordIn.is_open() && FilenamesIn.is_open())
     {
+        // restore stop word list
         std::string term;
         while(StopWordIn >> term)
         {
             StopWord.insert(term);
         }
+
+        // restore document list
+        std::string filename;
+        while(FilenamesIn >> filename)
+        {
+            Documents.push_back(filename);
+        }
+        StopWordIn.close();
+        FilenamesIn.close();
         return true;
 	}
 
@@ -51,7 +63,8 @@ bool InvertedFileIndex::GetStopWord()
     // open the original directory
     DIR *dir;
     struct dirent *entry;
-    if((dir = opendir(OriDir.c_str())) == NULL){
+    if((dir = opendir(OriDir.c_str())) == NULL)
+    {
         std::cout << "Directory open failed" << std::endl;
         return false;
     }
@@ -62,24 +75,34 @@ bool InvertedFileIndex::GetStopWord()
 	std::string to_stem;
 	std::map<std::string, int> term_freq;   // collection frequency
 	int doc_num = 0;
-	while((entry = readdir(dir)) != NULL) {
+	std::ofstream FilenamesOut(FilenamesFile);
+	while((entry = readdir(dir)) != NULL)
+    {
         filename = entry->d_name;
         if(filename == "." || filename == "..") continue;
 		out.open(DstDir + "\\" + filename);
 		in.open(OriDir + "\\" + filename);
 
-		while (in >> to_stem) {
+		while (in >> to_stem)
+        {
+            // stem the word
 			Porter2Stemmer::trim(to_stem);
 			Porter2Stemmer::stem(to_stem);
 
+            // if the term becomes "" after stemming, omit it
             if(to_stem == "") continue;
             term_freq[to_stem]++;
 
+            // write to the corresponding destination file in DstDir
 			out << to_stem << ' ';
 		}
 		in.close();
 		out.close();
+
+        // store the list in FilenamesFile
 		InvertedFileIndex::Documents.push_back(filename);
+		FilenamesOut << filename << ' ';
+
 		doc_num++;
 	}
 
@@ -95,9 +118,11 @@ bool InvertedFileIndex::GetStopWord()
     // sort
     std::sort(vec_tf.begin(), vec_tf.end(), CompareTermFreq);
     std::ofstream StopWordOut(StopWordFile);
-    for(std::vector<pair>::iterator it = vec_tf.begin(); it != vec_tf.end(); ++it){
+    for(std::vector<pair>::iterator it = vec_tf.begin(); it != vec_tf.end(); ++it)
+    {
         // if(it->second > 3*doc_num){  for arbitrary collections of documents
-        if(it->first != "henri"){   // for Shakespeare Complete Works
+        if(it->first != "henri")
+        {   // for Shakespeare Complete Works
             StopWord.insert(it->first);
             StopWordOut << it->first << ' ';
         }
