@@ -120,9 +120,9 @@ bool InvertedFileIndex::GetStopWord()
     std::ofstream StopWordOut(StopWordFile);
     for(std::vector<pair>::iterator it = vec_tf.begin(); it != vec_tf.end(); ++it)
     {
-        // if(it->second > 3*doc_num){  for arbitrary collections of documents
-        if(it->first != "henri")
-        {   // for Shakespeare Complete Works
+        // if(it->second > 3*doc_num)  // for arbitrary collections of documents
+        if(it->first != "henri") // for Shakespeare Complete Works
+        {
             StopWord.insert(it->first);
             StopWordOut << it->first << ' ';
         }

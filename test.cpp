@@ -27,7 +27,7 @@ int main()
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
         std::vector<std::string> res;
         int times = 10000;
-        //for(int i = 0; i < times; i++)
+        for(int i = 0; i < times; i++)
             res = SearchEngine.QuerySearch2(str, threshold);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);

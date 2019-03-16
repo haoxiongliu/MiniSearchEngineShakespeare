@@ -1,3 +1,9 @@
+/**
+ *@file InvertedFileIndex.cpp
+ *@brief Implement Inverted index.
+ *
+ */
+
 #include <vector>
 #include <set>
 #include <map>
@@ -51,7 +57,7 @@ void InvertedFileIndex::InsertWord(string word, int docID)
         }else{
             // If the word hasn't appeared in this doc yet
             (*(map_it->second)).freq ++;
-            (*(map_it->second)).docID.push_back(pair<int, int>(docID, 1));        
+            (*(map_it->second)).docID.push_back(pair<int, int>(docID, 1));
         }
     }
     return;

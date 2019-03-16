@@ -24,7 +24,7 @@ void InvertedFileIndex::Test(vector<string> res, string query)
 	string term;
 	set<string> termlist;
 	set<string> FileList;
-	BOOLEAN term_is_stopword = true;
+	bool term_is_stopword = true;
 
 	for (auto it : res) FileList.insert(it); //Put Filenames into a set for convenience.
 	terms << query;
@@ -64,9 +64,9 @@ void InvertedFileIndex::Test(vector<string> res, string query)
     std::string Dir = "StemmedShakespeare";
 	std::ifstream in;       // in stream
 	std::set<string>::iterator it_set;
-	BOOLEAN related_doc;
+	bool related_doc;
 	for (const auto &filename : Documents) //Go through every document.
-	{  
+	{
 		related_doc = false;
 		ifstream in(Dir + "\\" + filename);
 		while (in >> term) //Go through every term in the document.
