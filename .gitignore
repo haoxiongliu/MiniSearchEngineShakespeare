@@ -6,6 +6,8 @@
 *.depend
 *.bmarks
 *.cbp
+bin/
+obj/
 
 
 # Prerequisites
@@ -39,6 +41,7 @@
 # Executables
 *.out
 *.app
+*.exe
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
