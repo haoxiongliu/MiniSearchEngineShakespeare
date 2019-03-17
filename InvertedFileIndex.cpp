@@ -18,6 +18,14 @@ InvertedFileIndex::~InvertedFileIndex(){
     return;
 }
 
+/************************************************************************* 
+ -  Function:       UpdateIndex
+ -  Description:    Build the inverted index according to the stemmed 
+                    documents and store the inverted index in the map
+                    InvertedIndex
+ -  Input:          \
+ -  Output:         \
+************************************************************************/
 bool InvertedFileIndex::UpdateIndex()
 {
     string word;
@@ -39,6 +47,13 @@ bool InvertedFileIndex::UpdateIndex()
     }
     return true;
 }
+/************************************************************************* 
+ -  Function:       InsertWord
+ -  Description:    Insert a word into the map InvertedIndex.
+ -  Input:          param1: the word to be inserted
+                    param2: the document ID
+ -  Output:         \
+************************************************************************/
 
 void InvertedFileIndex::InsertWord(string word, int docID)
 {

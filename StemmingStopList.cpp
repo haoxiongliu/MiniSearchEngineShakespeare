@@ -25,6 +25,16 @@ bool CompareTermFreq(std::pair<std::string, int> a, std::pair<std::string, int> 
 }
 }
 
+/************************************************************************* 
+ -  Function:       GetStopWord
+ -  Description:    For each document in the given directory, use the porter2
+                    stemmer to stem all the words in it and output the stemmed
+                    word to the file in another directory. Also, count the
+                    collection frequency of each stemmed term to determine the
+                    stop words.
+ -  Input:          \
+ -  Output:         \
+************************************************************************/
 bool InvertedFileIndex::GetStopWord()
 {
 	// if there is already a stop word list and a document list, restore them

@@ -1,6 +1,6 @@
 /**
- *@file test.cpp
- *@brief test program for querying
+ *@file main.cpp
+ *@brief main program for querying
  *
  */
  #include "InvertedFileIndex.h"
@@ -11,7 +11,7 @@
 
 int main()
 {
-    // Finish test program here
+    // Finish main program here
     InvertedFileIndex SearchEngine;
 	float threshold = 1.0;
     SearchEngine.GetStopWord();
