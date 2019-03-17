@@ -6,8 +6,7 @@
 *.depend
 *.bmarks
 *.cbp
-bin/
-obj/
+
 
 # Prerequisites
 *.d
@@ -38,7 +37,6 @@ obj/
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
 
