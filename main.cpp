@@ -31,7 +31,7 @@ int main()
             res = SearchEngine.QuerySearch2(str, threshold);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-		SearchEngine.Test(res, str);
+		if (threshold == 1.0) SearchEngine.Test(res, str);
 		if (res.size() == 0)
 			std::cout << "Search Engine fails to retrive documents. " << std::endl
 			          << "It's possible that your query is contained in StopList, or there is no such terms in documents."
