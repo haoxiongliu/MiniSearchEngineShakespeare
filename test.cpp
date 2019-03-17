@@ -33,13 +33,13 @@ int main()
         duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
 		SearchEngine.Test(res, str);
 		if (res.size() == 0)
-			std::cout << "Search Engine fails to retrive documents. " << std::endl
+			std::cout << "Search Engine fails to retrieve documents. " << std::endl
 			          << "It's possible that your query is contained in StopList, or there is no such terms in documents."
 			          << std::endl;
 		else
 		{
 			std::cout << "Search Engine spends " << time_span.count() << "s in "
-				<< times << " times and retrives " << res.size()
+				<< times << " times and retrieves " << res.size()
 				<< " documents." << std::endl;
 			int i = 0;
 			for (auto it : res) {

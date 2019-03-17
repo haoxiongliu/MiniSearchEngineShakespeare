@@ -49,14 +49,14 @@ void InvertedFileIndex::Test(vector<string> res, string query)
 
 	if (term_is_stopword == true) //If all terms are in the StopList.
 	{
-		if (res.size() == 0) //If there are no documents retrived, it is correct.
+		if (res.size() == 0) //If there are no documents retrieved, it is correct.
 		{
-			cout << "Correct: Query is in StopList, and there are no documents retrived." << endl;
+			cout << "Correct: Query is in StopList or empty, and there are no documents retrieved." << endl;
 			return;
 		}
 		else
 		{
-			cout << "Error: Query is in StopList, but there are documents retrived." << endl;
+			cout << "Error: Query is in StopList or empty, but there are documents retrieved." << endl;
 			return;
 		}
 	}
@@ -72,17 +72,17 @@ void InvertedFileIndex::Test(vector<string> res, string query)
 		while (in >> term) //Go through every term in the document.
 		{
 			it_set = termlist.find(term);
-			if (it_set != termlist.end()) //If term is in termlist, then this filename should be retrived.
+			if (it_set != termlist.end()) //If term is in termlist, then this filename should be retrieved.
 			{
 				related_doc = true;
 				it_set = FileList.find(filename);
 				if (it_set == FileList.end()) //If filename isn't in FileList, it's an error.
 				{
 					cout << "Error: " << filename << " contain the term " << term
-						 << ", but is not retrived." << endl;
+						 << ", but is not retrieved." << endl;
 					return;
 				}
-				break; //Document is relevance and retrived, so just stop scanning.
+				break; //Document is relevance and retrieved, so just stop scanning.
 			}
 		}
 		if (related_doc == false) //If no terms in termlist are in this document, this document is irrelevance.
@@ -90,11 +90,11 @@ void InvertedFileIndex::Test(vector<string> res, string query)
 			it_set = FileList.find(filename);
 			if (it_set != FileList.end()) //If filename is in FileList, it's an error.
 			{
-				cout << "Error: Document " << filename << " is retrived, but in fact it is irrelevance." << endl;
+				cout << "Error: Document " << filename << " is retrieved, but in fact it is irrelevance." << endl;
 				return;
 			}
 		}
 	}
-	cout << "Correct: The documents retrived are all relevance, and other documents are all irrelevance." << endl;
+	cout << "Correct: The documents retrieved are all relevance, and other documents are all irrelevance." << endl;
 	return;
 }
